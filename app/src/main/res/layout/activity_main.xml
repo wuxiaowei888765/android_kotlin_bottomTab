@@ -21,10 +21,10 @@
        tab:icon2_selected="@drawable/b_b"
        tab:icon3_selected="@drawable/c_c"
        tab:icon4_selected="@drawable/d_d"
-       tab:label1="a"
-       tab:label2="b"
-       tab:label3="c"
-       tab:label4="d"
+       tab:label1="纸牌"
+       tab:label2="货到付款"
+       tab:label3="球鞋"
+       tab:label4="店铺"
        tab:showLabel="true"/>
 
 </RelativeLayout>
