@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tab="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="withkotlin.android.com.bottomtab.MainActivity">
+
+   <withkotlin.android.com.bottomtab.BottomTab
+       android:id="@+id/bottom_tab"
+       android:layout_width="match_parent"
+       android:layout_height="70dp"
+       tab:tabNum="4"
+       android:layout_alignParentBottom="true"
+       tab:showIcon="true"
+       tab:icon1="@drawable/a"
+       tab:icon2="@drawable/b"
+       tab:icon3="@drawable/c"
+       tab:icon4="@drawable/d"
+       tab:icon1_selected="@drawable/a_a"
+       tab:icon2_selected="@drawable/b_b"
+       tab:icon3_selected="@drawable/c_c"
+       tab:icon4_selected="@drawable/d_d"
+       tab:label1="a"
+       tab:label2="b"
+       tab:label3="c"
+       tab:label4="d"
+       tab:showLabel="true"/>
+
+</RelativeLayout>
