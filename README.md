@@ -15,6 +15,7 @@
 * 点击iocn回调
 * 添加lable
 
+### 调用方式如下：
 ```xml
 <withkotlin.android.com.bottomtab.BottomTab
        android:id="@+id/bottom_tab"
