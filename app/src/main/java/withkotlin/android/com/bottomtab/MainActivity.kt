@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.Toast
 
 class MainActivity : AppCompatActivity(),BottomTab.BottomTabItemClick {
+
     override fun setOnClickListener(v: View) {
         Toast.makeText(this,v.tag.toString(),Toast.LENGTH_SHORT).show()
     }

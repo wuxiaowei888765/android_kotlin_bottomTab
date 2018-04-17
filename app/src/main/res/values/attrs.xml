@@ -28,6 +28,8 @@
         <attr name="label2" format="string"></attr>
         <attr name="label3" format="string"></attr>
         <attr name="label4" format="string"></attr>
+        <attr name="label_color" format="color"></attr>
+        <attr name="label_selected_color" format="color"></attr>
     </declare-styleable>
 
 

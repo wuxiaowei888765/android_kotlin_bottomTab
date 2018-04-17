@@ -21,6 +21,10 @@ class BottomTab(context: Context, attributeSet: AttributeSet?, defStyle: Int) : 
     private var icon_selected = ArrayList<Int>()
     private var labels = ArrayList<String>()
     private var layouts = ArrayList<LinearLayout>()
+
+    private var lable_color = 0;
+    private var lable_selected_color = 0;
+
     open interface BottomTabItemClick{
          fun setOnClickListener(v:View)
     }
@@ -37,6 +41,8 @@ class BottomTab(context: Context, attributeSet: AttributeSet?, defStyle: Int) : 
         iconNumber = typedArray.getInt(R.styleable.BottomTab_tabNum, -1)
         showIcon = typedArray.getBoolean(R.styleable.BottomTab_showIcon, true)
         showLabel = typedArray.getBoolean(R.styleable.BottomTab_showLabel, false)
+        lable_color = typedArray.getColor(R.styleable.BottomTab_label_color, -1)
+        lable_selected_color = typedArray.getColor(R.styleable.BottomTab_label_selected_color, -1)
         icon.add(typedArray.getResourceId(R.styleable.BottomTab_icon1, -1))
         icon.add(typedArray.getResourceId(R.styleable.BottomTab_icon2, -1))
         icon.add(typedArray.getResourceId(R.styleable.BottomTab_icon3, -1))
@@ -45,10 +51,12 @@ class BottomTab(context: Context, attributeSet: AttributeSet?, defStyle: Int) : 
         icon_selected.add(typedArray.getResourceId(R.styleable.BottomTab_icon2_selected, -1))
         icon_selected.add(typedArray.getResourceId(R.styleable.BottomTab_icon3_selected, -1))
         icon_selected.add(typedArray.getResourceId(R.styleable.BottomTab_icon4_selected, -1))
-        labels.add(typedArray.getString(R.styleable.BottomTab_label1))
-        labels.add(typedArray.getString(R.styleable.BottomTab_label2))
-        labels.add(typedArray.getString(R.styleable.BottomTab_label3))
-        labels.add(typedArray.getString(R.styleable.BottomTab_label4))
+        if(showLabel){
+            labels.add(typedArray.getString(R.styleable.BottomTab_label1))
+            labels.add(typedArray.getString(R.styleable.BottomTab_label2))
+            labels.add(typedArray.getString(R.styleable.BottomTab_label3))
+            labels.add(typedArray.getString(R.styleable.BottomTab_label4))
+        }
 
         var topLine = View(context)
         var rl: RelativeLayout.LayoutParams = RelativeLayout.LayoutParams(
@@ -70,23 +78,27 @@ class BottomTab(context: Context, attributeSet: AttributeSet?, defStyle: Int) : 
             layout.tag = i
             layouts.add(layout)
             layout.setOnClickListener({
-                bottomTabItemClick.setOnClickListener(layout)
+                bottomTabItemClick.setOnClickListener(it)
                 for (item in layouts) {
                     if(item.tag ==layout.tag){
-                        var iv = item.getChildAt(0) as ImageView
-                        iv.setImageResource(icon_selected[item.tag as Int])
+                        (item.getChildAt(0) as ImageView).setImageResource(icon_selected[item.tag as Int])
+                        (item.getChildAt(1) as TextView).setTextColor(lable_selected_color)
                     }else{
-                        var iv = item.getChildAt(0) as ImageView
-                        iv.setImageResource(icon[item.tag as Int])
+                        (item.getChildAt(0) as ImageView).setImageResource(icon[item.tag as Int])
+                        (item.getChildAt(1) as TextView).setTextColor(lable_color)
                     }
-
                 }
             })
             var iv = ImageView(context)
-            iv.setImageResource(icon[i])
-
             var tv = TextView(context)
             tv.text = labels[i]
+            if(i==0){
+                iv.setImageResource(icon_selected[i])
+                tv.setTextColor(lable_selected_color)
+            }else{
+                iv.setImageResource(icon[i])
+                tv.setTextColor(lable_color)
+            }
 
             var lp: LinearLayout.LayoutParams = LinearLayout.LayoutParams(
                     ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -94,7 +106,9 @@ class BottomTab(context: Context, attributeSet: AttributeSet?, defStyle: Int) : 
             lp.weight = 1.0f
             lp.gravity = Gravity.CENTER
             layout.addView(iv,lp)
-            layout.addView(tv,lp)
+            if(showLabel){
+                layout.addView(tv,lp)
+            }
             tabLayout.addView(layout, lp)
         }
 
