@@ -3,7 +3,7 @@
 <img width="324" height="576" src="https://github.com/wuxiaowei888765/android_kotlin_bottomTab/blob/master/Screenshot1.png?raw=true"/>
 
 ### 目前需要持续添加的还有如下：
-* 文字显示颜色变化
+* 文字显示颜色变化 --- (已添加)
 * 图标右上角可能会出现消息提示
 * 中间可能是圆形按钮活着自定义按钮
 * 传入数据的方式（如：iocn，lable）
