@@ -6,6 +6,12 @@
     android:layout_height="match_parent"
     tools:context="withkotlin.android.com.bottomtab.MainActivity">
 
+   <Button
+       android:id="@+id/mAddBtn"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="add message count"/>
+
    <withkotlin.android.com.bottomtab.BottomTab
        android:id="@+id/bottom_tab"
        android:layout_width="match_parent"

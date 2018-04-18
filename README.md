@@ -36,4 +36,7 @@
        tab:label2="货到付款"
        tab:label3="球鞋"
        tab:label4="店铺"
-       tab:showLabel="true"/>
+       tab:showLabel="true"
+       tab:label_color="#000"
+       tab:label_selected_color="#ed5628"
+       tab:message_index="2"/>

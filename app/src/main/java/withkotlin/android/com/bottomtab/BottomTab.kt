@@ -24,18 +24,18 @@ class BottomTab(context: Context, attributeSet: AttributeSet?, defStyle: Int) : 
 
     private var lable_color = 0;
     private var lable_selected_color = 0
-    private lateinit var  messageView:TextView
+    private lateinit var messageView: TextView
     private var messageIndex = 0
 
-    open interface BottomTabItemClick{
-         fun setOnClickListener(v:View)
+    open interface BottomTabItemClick {
+        fun setOnClickListener(v: View)
     }
 
-    private lateinit var bottomTabItemClick:BottomTabItemClick
+    private lateinit var bottomTabItemClick: BottomTabItemClick
 
 
-    fun setOnClick(bottomTabItemClick:BottomTabItemClick ){
-       this.bottomTabItemClick = bottomTabItemClick
+    fun setOnClick(bottomTabItemClick: BottomTabItemClick) {
+        this.bottomTabItemClick = bottomTabItemClick
     }
 
     constructor (context: Context, attributeSet: AttributeSet?) : this(context, attributeSet, 0) {
@@ -54,7 +54,7 @@ class BottomTab(context: Context, attributeSet: AttributeSet?, defStyle: Int) : 
         icon_selected.add(typedArray.getResourceId(R.styleable.BottomTab_icon2_selected, -1))
         icon_selected.add(typedArray.getResourceId(R.styleable.BottomTab_icon3_selected, -1))
         icon_selected.add(typedArray.getResourceId(R.styleable.BottomTab_icon4_selected, -1))
-        if(showLabel){
+        if (showLabel) {
             labels.add(typedArray.getString(R.styleable.BottomTab_label1))
             labels.add(typedArray.getString(R.styleable.BottomTab_label2))
             labels.add(typedArray.getString(R.styleable.BottomTab_label3))
@@ -67,7 +67,7 @@ class BottomTab(context: Context, attributeSet: AttributeSet?, defStyle: Int) : 
                 1)
         rl.addRule(RelativeLayout.ABOVE)
         topLine.setBackgroundColor(Color.parseColor("#f34649"))
-        addView(topLine,rl)
+        addView(topLine, rl)
 
         var tabLayout = LinearLayout(context)
         tabLayout.orientation = LinearLayout.HORIZONTAL
@@ -83,11 +83,11 @@ class BottomTab(context: Context, attributeSet: AttributeSet?, defStyle: Int) : 
             layout.setOnClickListener({
                 bottomTabItemClick.setOnClickListener(it)
                 for (item in layouts) {
-                    if(item.tag ==layout.tag){
-                        (item.getChildAt(0) as ImageView).setImageResource(icon_selected[item.tag as Int])
+                    if (item.tag == layout.tag) {
+                        ((item.getChildAt(0) as FrameLayout).getChildAt(0) as ImageView).setImageResource(icon_selected[item.tag as Int])
                         (item.getChildAt(1) as TextView).setTextColor(lable_selected_color)
-                    }else{
-                        (item.getChildAt(0) as ImageView).setImageResource(icon[item.tag as Int])
+                    } else {
+                        ((item.getChildAt(0) as FrameLayout).getChildAt(0) as ImageView).setImageResource(icon[item.tag as Int])
                         (item.getChildAt(1) as TextView).setTextColor(lable_color)
                     }
                 }
@@ -96,13 +96,12 @@ class BottomTab(context: Context, attributeSet: AttributeSet?, defStyle: Int) : 
             var frameLayout = FrameLayout(context)
 
 
-
             var tv = TextView(context)
             tv.text = labels[i]
-            if(i==0){
+            if (i == 0) {
                 iv.setImageResource(icon_selected[i])
                 tv.setTextColor(lable_selected_color)
-            }else{
+            } else {
                 iv.setImageResource(icon[i])
                 tv.setTextColor(lable_color)
             }
@@ -114,22 +113,21 @@ class BottomTab(context: Context, attributeSet: AttributeSet?, defStyle: Int) : 
             lp.gravity = Gravity.CENTER
             //frameLayout add view
             frameLayout.addView(iv)
-            messageView = TextView(context)
             var fp: FrameLayout.LayoutParams = FrameLayout.LayoutParams(
                     ViewGroup.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT)
             fp.gravity = Gravity.RIGHT
-            fp.topMargin =10
-            messageView.text = "99+"
-            messageView.setTextColor(Color.WHITE)
-            messageView.setBackgroundColor(Color.RED)
-            messageView.textSize = 10.0f
-            if(i==messageIndex){
-                frameLayout.addView(messageView,fp)
+            fp.topMargin = 10
+            if (i == messageIndex) {
+                messageView = TextView(context)
+                messageView.setTextColor(Color.WHITE)
+                messageView.setBackgroundColor(Color.RED)
+                messageView.textSize = 10.0f
+                frameLayout.addView(messageView, fp)
             }
-            layout.addView(frameLayout,lp)
-            if(showLabel){
-                layout.addView(tv,lp)
+            layout.addView(frameLayout, lp)
+            if (showLabel) {
+                layout.addView(tv, lp)
             }
             tabLayout.addView(layout, lp)
         }
@@ -137,9 +135,17 @@ class BottomTab(context: Context, attributeSet: AttributeSet?, defStyle: Int) : 
         var lp: LinearLayout.LayoutParams = LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT)
-        addView(tabLayout,lp)
+        addView(tabLayout, lp)
 
         typedArray.recycle()
+    }
+
+    fun setMessageCount(count: Int) {
+        if (count > 99)
+            messageView.text = "99+"
+        else
+            messageView.text = count.toString()
+
     }
 
     constructor (context: Context) : this(context, null)
