@@ -27,6 +27,7 @@
        tab:label4="店铺"
        tab:showLabel="true"
        tab:label_color="#000"
-       tab:label_selected_color="#ed5628"/>
+       tab:label_selected_color="#ed5628"
+       tab:message_index="2"/>
 
 </RelativeLayout>

@@ -30,6 +30,7 @@
         <attr name="label4" format="string"></attr>
         <attr name="label_color" format="color"></attr>
         <attr name="label_selected_color" format="color"></attr>
+        <attr name="message_index" format="integer"></attr>
     </declare-styleable>
 
 

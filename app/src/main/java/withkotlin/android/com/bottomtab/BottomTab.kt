@@ -23,7 +23,9 @@ class BottomTab(context: Context, attributeSet: AttributeSet?, defStyle: Int) : 
     private var layouts = ArrayList<LinearLayout>()
 
     private var lable_color = 0;
-    private var lable_selected_color = 0;
+    private var lable_selected_color = 0
+    private lateinit var  messageView:TextView
+    private var messageIndex = 0
 
     open interface BottomTabItemClick{
          fun setOnClickListener(v:View)
@@ -39,6 +41,7 @@ class BottomTab(context: Context, attributeSet: AttributeSet?, defStyle: Int) : 
     constructor (context: Context, attributeSet: AttributeSet?) : this(context, attributeSet, 0) {
         val typedArray = context.obtainStyledAttributes(attributeSet, R.styleable.BottomTab)
         iconNumber = typedArray.getInt(R.styleable.BottomTab_tabNum, -1)
+        messageIndex = typedArray.getInt(R.styleable.BottomTab_message_index, -1)
         showIcon = typedArray.getBoolean(R.styleable.BottomTab_showIcon, true)
         showLabel = typedArray.getBoolean(R.styleable.BottomTab_showLabel, false)
         lable_color = typedArray.getColor(R.styleable.BottomTab_label_color, -1)
@@ -90,6 +93,10 @@ class BottomTab(context: Context, attributeSet: AttributeSet?, defStyle: Int) : 
                 }
             })
             var iv = ImageView(context)
+            var frameLayout = FrameLayout(context)
+
+
+
             var tv = TextView(context)
             tv.text = labels[i]
             if(i==0){
@@ -105,7 +112,22 @@ class BottomTab(context: Context, attributeSet: AttributeSet?, defStyle: Int) : 
                     ViewGroup.LayoutParams.MATCH_PARENT)
             lp.weight = 1.0f
             lp.gravity = Gravity.CENTER
-            layout.addView(iv,lp)
+            //frameLayout add view
+            frameLayout.addView(iv)
+            messageView = TextView(context)
+            var fp: FrameLayout.LayoutParams = FrameLayout.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT)
+            fp.gravity = Gravity.RIGHT
+            fp.topMargin =10
+            messageView.text = "99+"
+            messageView.setTextColor(Color.WHITE)
+            messageView.setBackgroundColor(Color.RED)
+            messageView.textSize = 10.0f
+            if(i==messageIndex){
+                frameLayout.addView(messageView,fp)
+            }
+            layout.addView(frameLayout,lp)
             if(showLabel){
                 layout.addView(tv,lp)
             }
