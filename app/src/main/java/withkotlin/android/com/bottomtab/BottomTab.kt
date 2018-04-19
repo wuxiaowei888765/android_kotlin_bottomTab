@@ -61,63 +61,76 @@ class BottomTab(context: Context, attributeSet: AttributeSet?, defStyle: Int) : 
             labels.add(typedArray.getString(R.styleable.BottomTab_label4))
         }
 
-        var topLine = View(context)
+        var topLine = View(context).apply {
+            setBackgroundColor(Color.parseColor("#f34649"))
+        }
+
         var rl: RelativeLayout.LayoutParams = RelativeLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
-                1)
-        rl.addRule(RelativeLayout.ABOVE)
-        topLine.setBackgroundColor(Color.parseColor("#f34649"))
+                1).apply {
+            addRule(RelativeLayout.ABOVE)
+        }
+
         addView(topLine, rl)
 
-        var tabLayout = LinearLayout(context)
-        tabLayout.orientation = LinearLayout.HORIZONTAL
-        tabLayout.gravity = Gravity.CENTER
-
+        var tabLayout = LinearLayout(context).apply {
+            orientation = LinearLayout.HORIZONTAL
+            gravity = Gravity.CENTER
+        }
 
         for (i in 0 until icon.size) {
-            var layout = LinearLayout(context)
-            layout.orientation = LinearLayout.VERTICAL
-            layout.gravity = Gravity.CENTER
-            layout.tag = i
+            var layout = LinearLayout(context).apply {
+                orientation = LinearLayout.VERTICAL
+                gravity = Gravity.CENTER
+                tag = i
+            }
             layouts.add(layout)
             layout.setOnClickListener({
                 bottomTabItemClick.setOnClickListener(it)
-                for (item in layouts) {
-                    if (item.tag == layout.tag) {
-                        ((item.getChildAt(0) as FrameLayout).getChildAt(0) as ImageView).setImageResource(icon_selected[item.tag as Int])
-                        (item.getChildAt(1) as TextView).setTextColor(lable_selected_color)
+                layouts.forEach {
+                    if (it.tag == layout.tag) {
+                        ((it.getChildAt(0) as FrameLayout).getChildAt(0) as ImageView).setImageResource(icon_selected[it.tag as Int])
+                        (it.getChildAt(1) as TextView).setTextColor(lable_selected_color)
                     } else {
-                        ((item.getChildAt(0) as FrameLayout).getChildAt(0) as ImageView).setImageResource(icon[item.tag as Int])
-                        (item.getChildAt(1) as TextView).setTextColor(lable_color)
+                        ((it.getChildAt(0) as FrameLayout).getChildAt(0) as ImageView).setImageResource(icon[it.tag as Int])
+                        (it.getChildAt(1) as TextView).setTextColor(lable_color)
                     }
                 }
             })
             var iv = ImageView(context)
             var frameLayout = FrameLayout(context)
+            var tv = TextView(context).apply {
+                text = labels[i]
+            }
 
-
-            var tv = TextView(context)
-            tv.text = labels[i]
             if (i == 0) {
                 iv.setImageResource(icon_selected[i])
-                tv.setTextColor(lable_selected_color)
+                lable_selected_color.let {
+                    tv.setTextColor(it)
+                }
             } else {
                 iv.setImageResource(icon[i])
-                tv.setTextColor(lable_color)
+
+                lable_color.let {
+                    tv.setTextColor(it)
+                }
             }
 
             var lp: LinearLayout.LayoutParams = LinearLayout.LayoutParams(
                     ViewGroup.LayoutParams.WRAP_CONTENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT)
-            lp.weight = 1.0f
-            lp.gravity = Gravity.CENTER
+                    ViewGroup.LayoutParams.MATCH_PARENT).apply {
+                weight = 1.0f
+                gravity = Gravity.CENTER
+            }
             //frameLayout add view
             frameLayout.addView(iv)
             var fp: FrameLayout.LayoutParams = FrameLayout.LayoutParams(
                     ViewGroup.LayoutParams.WRAP_CONTENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT)
-            fp.gravity = Gravity.RIGHT
-            fp.topMargin = 10
+                    ViewGroup.LayoutParams.WRAP_CONTENT).apply {
+                gravity = Gravity.RIGHT
+                topMargin = 10
+            }
+
             if (i == messageIndex) {
                 messageView = TextView(context)
                 messageView.setTextColor(Color.WHITE)
@@ -126,9 +139,9 @@ class BottomTab(context: Context, attributeSet: AttributeSet?, defStyle: Int) : 
                 frameLayout.addView(messageView, fp)
             }
             layout.addView(frameLayout, lp)
-            if (showLabel) {
-                layout.addView(tv, lp)
-            }
+
+            if (showLabel) layout.addView(tv, lp)
+
             tabLayout.addView(layout, lp)
         }
 
@@ -136,15 +149,16 @@ class BottomTab(context: Context, attributeSet: AttributeSet?, defStyle: Int) : 
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT)
         addView(tabLayout, lp)
-
         typedArray.recycle()
     }
 
     fun setMessageCount(count: Int) {
-        if (count > 99)
-            messageView.text = "99+"
-        else
-            messageView.text = count.toString()
+            messageView.apply {
+                text = if(count>99)
+                    "99+"
+                else
+                    count.toString()
+            }
 
     }
 
